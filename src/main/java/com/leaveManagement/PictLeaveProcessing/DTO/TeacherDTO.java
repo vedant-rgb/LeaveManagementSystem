@@ -1,37 +1,26 @@
-package com.leaveManagement.PictLeaveProcessing.Entity;
+package com.leaveManagement.PictLeaveProcessing.DTO;
 
-import jakarta.persistence.*;
+public class TeacherDTO {
 
-@Entity
-@Table(name = "teacher")
-public class Teacher {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "teacherId",unique = true)
     private String teacherId;
     private String name;
     private String post;
     private String subject;
     private String department;
+    private TeacherLeaveDTO leave;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "leave_id")
-    private TeacherLeave leave;
-
-    public Teacher() {
-        this.leave = new TeacherLeave(this);
+    public TeacherDTO() {
     }
 
-    public Teacher(Long id, String teacherId, String name, String post, String subject, String department) {
+    public TeacherDTO(Long id, String teacherId, String name, String post, String subject, String department, TeacherLeaveDTO leave) {
         this.id = id;
         this.teacherId = teacherId;
         this.name = name;
         this.post = post;
         this.subject = subject;
         this.department = department;
-        this.leave = new TeacherLeave(this);
+        this.leave = leave;
     }
 
     // Getters and Setters
@@ -83,11 +72,11 @@ public class Teacher {
         this.department = department;
     }
 
-    public TeacherLeave getLeave() {
+    public TeacherLeaveDTO getLeave() {
         return leave;
     }
 
-    public void setLeave(TeacherLeave leave) {
+    public void setLeave(TeacherLeaveDTO leave) {
         this.leave = leave;
     }
 }

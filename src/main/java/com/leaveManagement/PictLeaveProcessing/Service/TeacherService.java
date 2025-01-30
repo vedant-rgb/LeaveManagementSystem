@@ -1,30 +1,44 @@
 package com.leaveManagement.PictLeaveProcessing.Service;
 
+import com.leaveManagement.PictLeaveProcessing.DTO.TeacherDTO;
 import com.leaveManagement.PictLeaveProcessing.Entity.Teacher;
 import com.leaveManagement.PictLeaveProcessing.Exceptions.ResourceNotFoundException;
 import com.leaveManagement.PictLeaveProcessing.Repository.TeacherRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TeacherService {
 
     private final TeacherRepository teacherRepository;
+    private final ModelMapper modelMapper;
 
-    public TeacherService(TeacherRepository teacherRepository) {
+    public TeacherService(TeacherRepository teacherRepository, ModelMapper modelMapper) {
         this.teacherRepository = teacherRepository;
+        this.modelMapper = modelMapper;
     }
 
-    public Teacher saveTeacher(Teacher teacher) {
-        return teacherRepository.save(teacher);
+    public TeacherDTO saveTeacher(TeacherDTO teacher) {
+        Teacher toBeSaved = modelMapper.map(teacher, Teacher.class);
+        Teacher savedTeacher = teacherRepository.save(toBeSaved);
+        System.out.println("saved teacher:"+savedTeacher.getName());
+        return modelMapper.map(savedTeacher, TeacherDTO.class);
     }
 
-    public Teacher getTeacherById(String teacherId) {
-        return teacherRepository.findById(teacherId).orElseThrow(()->new ResourceNotFoundException("No teacher present for id :"+teacherId));
+    public TeacherDTO getTeacherById(String teacherId) {
+        Teacher teacher = teacherRepository.findByTeacherId(teacherId)
+                .orElseThrow(() -> new ResourceNotFoundException("No teacher present for id :" + teacherId));
+        return modelMapper.map(teacher, TeacherDTO.class);
     }
 
-    public List<Teacher> getAllTeachers() {
-        return teacherRepository.findAll();
+    public List<TeacherDTO> getAllTeachers() {
+        List<Teacher> teachers = teacherRepository.findAll();
+        return teachers.stream()
+                .map(teacher -> modelMapper.map(teacher, TeacherDTO.class))
+                .collect(Collectors.toList());
     }
+
 }
