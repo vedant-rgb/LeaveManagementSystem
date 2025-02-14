@@ -1,10 +1,9 @@
 package com.leaveManagement.PictLeaveProcessing.Enums;
 
 public enum LeaveType {
-
-    CasualLeave,
-    MedicalLeave,
-    EarnedLeave,
-    C_Off,
-    LWP
+    CASUAL_LEAVE,
+    MEDICAL_LEAVE,
+    EARNED_LEAVE,
+    C_OFF_LEAVE,
+    LWP_LEAVE
 }

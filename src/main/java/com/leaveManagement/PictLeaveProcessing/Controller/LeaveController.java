@@ -1,32 +1,22 @@
 package com.leaveManagement.PictLeaveProcessing.Controller;
 
-import com.leaveManagement.PictLeaveProcessing.DTO.TeacherLeaveDTO;
-import com.leaveManagement.PictLeaveProcessing.DTO.TeacherDTO;
-import com.leaveManagement.PictLeaveProcessing.Service.LeaveService;
-import lombok.extern.slf4j.Slf4j;
+import com.leaveManagement.PictLeaveProcessing.DTO.LeaveApplicationDTO;
+import com.leaveManagement.PictLeaveProcessing.Service.TeacherLeaveService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/leave")
+@RequiredArgsConstructor
 public class LeaveController {
 
-    private final LeaveService leaveService;
+    private final TeacherLeaveService teacherLeaveService;
 
-    public LeaveController(LeaveService leaveService) {
-        this.leaveService = leaveService;
-    }
-
-    @GetMapping("/leaveRemaining/{teacherId}")
-    public ResponseEntity<TeacherLeaveDTO> getRemainingLeaves(@PathVariable String teacherId){
-        TeacherLeaveDTO leavesRemaining = leaveService.findLeaveRemaining(teacherId);
-        return ResponseEntity.ok(leavesRemaining);
-    }
-
-    @PostMapping("/takeLeave")
-    public ResponseEntity<String> takeLeave(@RequestParam String teacherId, @RequestParam String leaveType) {
-        String message= leaveService.takeLeave(teacherId, leaveType);
-        return ResponseEntity.ok(message);
+    @PostMapping("/apply")
+    public ResponseEntity<?> submitLeaveApplication(@RequestBody LeaveApplicationDTO leaveApplicationDTO){
+        teacherLeaveService.submitLeaveApplication(leaveApplicationDTO);
+        return null;
     }
 
 }

@@ -20,7 +20,6 @@ public class TeacherController {
 
     @PostMapping("/save")
     public ResponseEntity<TeacherDTO>saveTeacher(@RequestBody TeacherDTO teacher){
-        System.out.println(teacher);
         TeacherDTO savedTeacher=teacherService.saveTeacher(teacher);
         return ResponseEntity.ok(savedTeacher);
     }

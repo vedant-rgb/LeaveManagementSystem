@@ -2,6 +2,7 @@ package com.leaveManagement.PictLeaveProcessing.Service;
 
 import com.leaveManagement.PictLeaveProcessing.DTO.TeacherDTO;
 import com.leaveManagement.PictLeaveProcessing.Entity.Teacher;
+import com.leaveManagement.PictLeaveProcessing.Entity.TeacherLeave;
 import com.leaveManagement.PictLeaveProcessing.Exceptions.ResourceNotFoundException;
 import com.leaveManagement.PictLeaveProcessing.Repository.TeacherRepository;
 import org.modelmapper.ModelMapper;
@@ -23,8 +24,10 @@ public class TeacherService {
 
     public TeacherDTO saveTeacher(TeacherDTO teacher) {
         Teacher toBeSaved = modelMapper.map(teacher, Teacher.class);
+        if (toBeSaved.getLeave() == null) {
+            toBeSaved.setLeave(new TeacherLeave());
+        }
         Teacher savedTeacher = teacherRepository.save(toBeSaved);
-        System.out.println("saved teacher:"+savedTeacher.getName());
         return modelMapper.map(savedTeacher, TeacherDTO.class);
     }
 
