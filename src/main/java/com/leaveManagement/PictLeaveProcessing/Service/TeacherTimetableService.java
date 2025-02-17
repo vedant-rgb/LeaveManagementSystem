@@ -25,7 +25,7 @@ public class TeacherTimetableService {
     private ModelMapper modelMapper;
 
     public List<TeacherTimetableDTO> getTimetableByTeacherId(String teacherId) {
-        List<TeacherTimetable> timetables = timetableRepository.findByTeacher_TeacherId(teacherId);
+        List<TeacherTimetable> timetables = timetableRepository.findByTeacher_TeacherRegistrationId(teacherId);
         return timetables.stream()
                 .map(timetable -> modelMapper.map(timetable, TeacherTimetableDTO.class))
                 .collect(Collectors.toList());
@@ -43,7 +43,7 @@ public class TeacherTimetableService {
             throw new RuntimeException("Timetable list cannot be empty");
         }
 
-        Optional<Teacher> teacherOptional = teacherRepository.findByTeacherId(teacherId);
+        Optional<Teacher> teacherOptional = teacherRepository.findByTeacherRegistrationId(teacherId);
         if (teacherOptional.isEmpty()) {
             throw new RuntimeException("Teacher not found with ID: " + teacherId);
         }

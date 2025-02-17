@@ -1,17 +1,22 @@
 package com.leaveManagement.PictLeaveProcessing.DTO;
 
+import com.leaveManagement.PictLeaveProcessing.Enums.ApplicationStatus;
 import com.leaveManagement.PictLeaveProcessing.Enums.LeaveType;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@ToString
 public class LeaveApplicationDTO {
+
+    private Long id;
+    private String teacherRegistrationId;
     private String applicantName;
     private String post;
     private Integer numberOfDays;
@@ -21,5 +26,6 @@ public class LeaveApplicationDTO {
     private String reason;
     private String leaveAddress;
     private String phoneNumber;
-    List<AlternateArrangementDTO> alternateArrangement;
+    private ApplicationStatus status;
+    private List<AlternateArrangementDTO> alternateArrangements;
 }

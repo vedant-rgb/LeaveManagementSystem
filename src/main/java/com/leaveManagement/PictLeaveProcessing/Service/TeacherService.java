@@ -27,12 +27,12 @@ public class TeacherService {
         if (toBeSaved.getLeave() == null) {
             toBeSaved.setLeave(new TeacherLeave());
         }
-        Teacher savedTeacher = teacherRepository.save(toBeSaved);
-        return modelMapper.map(savedTeacher, TeacherDTO.class);
+        Teacher saved = teacherRepository.save(toBeSaved);
+        return modelMapper.map(saved, TeacherDTO.class);
     }
 
     public TeacherDTO getTeacherById(String teacherId) {
-        Teacher teacher = teacherRepository.findByTeacherId(teacherId)
+        Teacher teacher = teacherRepository.findByTeacherRegistrationId(teacherId)
                 .orElseThrow(() -> new ResourceNotFoundException("No teacher present for id :" + teacherId));
         return modelMapper.map(teacher, TeacherDTO.class);
     }

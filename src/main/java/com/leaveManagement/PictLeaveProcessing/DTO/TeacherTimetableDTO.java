@@ -9,11 +9,11 @@ import java.time.LocalTime;
 @NoArgsConstructor
 public class TeacherTimetableDTO {
     private Long id;
+    private String teacherRegistrationId;
     private String day;
     private LocalTime startTime;
     private LocalTime endTime;
     private String subject;
     private String classroom;
     private String division;
-    private String teacherId;
 }

@@ -5,18 +5,14 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
 
-@Entity(name = "teacher")
+@Entity(name = "Teacher")
 @Getter
 @Setter
 @AllArgsConstructor
 public class Teacher {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "teacherId", unique = true)
-    private String teacherId;
+    private String teacherRegistrationId;
 
     private String name;
     private String post;
@@ -27,10 +23,6 @@ public class Teacher {
     @JoinColumn(name = "leave_id", referencedColumnName = "id")
     private TeacherLeave leave;
 
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<TeacherTimetable> timetable;
-
     public Teacher() {
         this.leave = new TeacherLeave();
     }
@@ -38,3 +30,7 @@ public class Teacher {
 
 
 }
+//TODO:
+//    @JsonIgnore // To avoid infinite recursion in case of bidirectional relationship
+//    @OneToMany(mappedBy = "substituteTeacher")  // Referencing the "substituteTeacher" field in AlternateArrangement
+//    private List<AlternateArrangement> alternateArrangements;

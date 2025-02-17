@@ -8,6 +8,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TeacherNameDTO {
-    String teacherId;
-    String name;
+    private String teacherRegistrationId;
+    private String name;
+    private String post;
+    private String subject;
+    private String department;
 }

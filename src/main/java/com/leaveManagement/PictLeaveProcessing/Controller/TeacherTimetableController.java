@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/timetable")
+@RequestMapping("/timetable")
 public class TeacherTimetableController {
 
     @Autowired
@@ -33,8 +33,8 @@ public class TeacherTimetableController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteTimetable(@PathVariable Long id) {
+    public String deleteTimetable(@PathVariable Long id) {
         timetableService.deleteTimetable(id);
-        return ResponseEntity.ok("Timetable entry deleted successfully");
+        return "Timetable entry deleted successfully";
     }
 }

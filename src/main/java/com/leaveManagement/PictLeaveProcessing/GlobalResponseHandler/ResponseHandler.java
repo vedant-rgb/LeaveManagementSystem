@@ -12,25 +12,32 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 @Slf4j
 @RestControllerAdvice
-public class ResponseHandler implements ResponseBodyAdvice {
+public class ResponseHandler implements ResponseBodyAdvice<Object> {
+
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
-        return true;
+        return true;  // Apply to all responses
     }
 
     @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        if (returnType.getContainingClass().isAnnotationPresent(RestController.class) &&
-                returnType.getMethod().getReturnType().equals(
-                        ResponseEntity.class)) {
-            log.info("Inside 1");
-            return new ApiResponse<>(body);
-        }
-        if(body instanceof ApiResponse<?>){
-            log.info("Inside 2");
+    public Object beforeBodyWrite(
+            Object body, MethodParameter returnType, MediaType selectedContentType,
+            Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+
+        // ✅ If the response is a String, return it directly (Spring requires plain Strings for text responses)
+        if (body instanceof String) {
+            log.info("Inside String handling");
             return body;
         }
-        log.info("Inside 3");
+
+        // ✅ If the response is already wrapped in `ApiResponse`, return it as is.
+        if (body instanceof ApiResponse<?>) {
+            log.info("Inside ApiResponse handling");
+            return body;
+        }
+
+        // ✅ Otherwise, wrap the response in `ApiResponse<T>`
+        log.info("Inside default wrapping");
         return new ApiResponse<>(body);
     }
 }

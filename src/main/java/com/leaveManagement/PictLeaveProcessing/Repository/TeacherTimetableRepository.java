@@ -13,20 +13,11 @@ import java.util.List;
 public interface TeacherTimetableRepository extends JpaRepository<TeacherTimetable, Long> {
 
     // Fetch all timetables for a given teacher ID
-    List<TeacherTimetable> findByTeacher_TeacherId(String teacherId);
+    List<TeacherTimetable> findByTeacher_TeacherRegistrationId(String teacherRegistrationId);
 
-    // Fetch all timetables for a specific day
+    // Find by teacher's registration ID and day
+    List<TeacherTimetable> findByTeacher_TeacherRegistrationIdAndDay(String teacherRegistrationId, String day);
+
     List<TeacherTimetable> findByDay(String day);
-
-    // Delete all timetable entries for a given teacher ID
-    void deleteByTeacher_TeacherId(String teacherId);
-
-    // Fetch free teachers who don't have lectures at a given day and time slot
-    @Query("SELECT t FROM Teacher t WHERE t.teacherId NOT IN " +
-            "(SELECT tt.teacher.teacherId FROM TeacherTimetable tt WHERE tt.day = :day " +
-            "AND ((tt.startTime <= :startTime AND tt.endTime > :startTime) OR " +
-            "(tt.startTime < :endTime AND tt.endTime >= :endTime))) " +
-            "AND t.teacherId <> :excludedTeacherId")
-    List<Teacher> findAvailableTeachersExcluding(String day, LocalTime startTime, LocalTime endTime, String excludedTeacherId);
 
 }

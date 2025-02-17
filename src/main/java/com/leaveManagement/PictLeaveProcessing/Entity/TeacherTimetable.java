@@ -16,25 +16,26 @@ public class TeacherTimetable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "day", nullable = false)
+    @Column(name = "day")
     private String day; // Example: "Monday", "Tuesday"
 
-    @Column(name = "start_time", nullable = false)
+    @Column(name = "start_time")
     private LocalTime startTime; // Example: 10:00 AM
 
-    @Column(name = "end_time", nullable = false)
+    @Column(name = "end_time")
     private LocalTime endTime; // Example: 11:00 AM
 
-    @Column(name = "subject", nullable = false)
+    @Column(name = "subject")
     private String subject;
 
-    @Column(name = "classroom", nullable = false)
+    @Column(name = "classroom")
     private String classroom;
 
-    @Column(name = "division", nullable = false)
+    @Column(name = "division")
     private String division; // Example: "A", "B", "C"
 
     @ManyToOne
-    @JoinColumn(name = "teacher_id", nullable = false) // Foreign Key to Teacher
+    @JoinColumn(name = "teacher_registration_id") // Foreign Key to Teacher
     private Teacher teacher;
+
 }
