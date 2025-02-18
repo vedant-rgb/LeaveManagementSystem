@@ -33,4 +33,5 @@ public class SubstitutionController {
 
         return teacherSubstitutionService.getAvailableTeachers(date,startTime,endTime,teacherId);
     }
+
 }

@@ -1,4 +1,4 @@
-package com.leaveManagement.PictLeaveProcessing.Mapper;
+package com.leaveManagement.PictLeaveProcessing.Configs;
 
 import com.leaveManagement.PictLeaveProcessing.DTO.AlternateArrangementDTO;
 import com.leaveManagement.PictLeaveProcessing.DTO.LeaveApplicationDTO;

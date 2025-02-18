@@ -1,7 +1,7 @@
 package com.leaveManagement.PictLeaveProcessing.Service;
 
+import com.leaveManagement.PictLeaveProcessing.Configs.LeaveApplicationMapper;
 import com.leaveManagement.PictLeaveProcessing.DTO.LeaveApplicationDTO;
-import com.leaveManagement.PictLeaveProcessing.Mapper.LeaveApplicationMapper;
 import com.leaveManagement.PictLeaveProcessing.Entity.LeaveApplication;
 import com.leaveManagement.PictLeaveProcessing.Enums.ApplicationStatus;
 import com.leaveManagement.PictLeaveProcessing.Repository.LeaveApplicationRepository;

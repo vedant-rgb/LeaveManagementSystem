@@ -27,10 +27,4 @@ public class Teacher {
         this.leave = new TeacherLeave();
     }
 
-
-
 }
-//TODO:
-//    @JsonIgnore // To avoid infinite recursion in case of bidirectional relationship
-//    @OneToMany(mappedBy = "substituteTeacher")  // Referencing the "substituteTeacher" field in AlternateArrangement
-//    private List<AlternateArrangement> alternateArrangements;

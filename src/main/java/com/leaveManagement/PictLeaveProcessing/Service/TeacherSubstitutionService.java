@@ -1,29 +1,25 @@
 package com.leaveManagement.PictLeaveProcessing.Service;
 
-import com.leaveManagement.PictLeaveProcessing.DTO.TeacherDTO;
+import com.leaveManagement.PictLeaveProcessing.DTO.AlternateArrangementDTO;
 import com.leaveManagement.PictLeaveProcessing.DTO.TeacherNameDTO;
 import com.leaveManagement.PictLeaveProcessing.Entity.Teacher;
-import com.leaveManagement.PictLeaveProcessing.Entity.TeacherTimetable;
 import com.leaveManagement.PictLeaveProcessing.Repository.TeacherRepository;
 import com.leaveManagement.PictLeaveProcessing.Repository.TeacherTimetableRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TeacherSubstitutionService {
 
-    @Autowired
-    private TeacherRepository teacherRepository;
-
-    @Autowired
-    private TeacherTimetableRepository timetableRepository;
+    private final TeacherRepository teacherRepository;
+    private final TeacherTimetableRepository timetableRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -36,7 +32,6 @@ public class TeacherSubstitutionService {
                 .map(teacher -> modelMapper.map(teacher, TeacherNameDTO.class))
                 .toList();
     }
-
 
 
 
