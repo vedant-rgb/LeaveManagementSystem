@@ -3,15 +3,19 @@ package com.leaveManagement.PictLeaveProcessing.Service;
 import com.leaveManagement.PictLeaveProcessing.DTO.TeacherDTO;
 import com.leaveManagement.PictLeaveProcessing.Entity.Teacher;
 import com.leaveManagement.PictLeaveProcessing.Entity.TeacherLeave;
+import com.leaveManagement.PictLeaveProcessing.Entity.User;
 import com.leaveManagement.PictLeaveProcessing.Exceptions.ResourceNotFoundException;
 import com.leaveManagement.PictLeaveProcessing.Repository.TeacherRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class TeacherService {
 
     private final TeacherRepository teacherRepository;
@@ -31,9 +35,10 @@ public class TeacherService {
         return modelMapper.map(saved, TeacherDTO.class);
     }
 
-    public TeacherDTO getTeacherById(String teacherId) {
-        Teacher teacher = teacherRepository.findByTeacherRegistrationId(teacherId)
-                .orElseThrow(() -> new ResourceNotFoundException("No teacher present for id :" + teacherId));
+    public TeacherDTO getTeacherById() {
+        User user = getCurrentuser();
+        Teacher teacher = teacherRepository.findByTeacherRegistrationId(user.getTeacherRegistrationId())
+                .orElseThrow(() -> new ResourceNotFoundException("No teacher present for id :" + user.getTeacherRegistrationId()));
         return modelMapper.map(teacher, TeacherDTO.class);
     }
 
@@ -42,6 +47,10 @@ public class TeacherService {
         return teachers.stream()
                 .map(teacher -> modelMapper.map(teacher, TeacherDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    private User getCurrentuser(){
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
 }

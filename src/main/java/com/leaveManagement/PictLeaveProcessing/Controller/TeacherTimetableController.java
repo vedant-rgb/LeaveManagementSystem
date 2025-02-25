@@ -15,9 +15,9 @@ public class TeacherTimetableController {
     @Autowired
     private TeacherTimetableService timetableService;
 
-    @GetMapping("/teacher/{teacherId}")
-    public ResponseEntity<List<TeacherTimetableDTO>> getTimetableByTeacherId(@PathVariable String teacherId) {
-        return ResponseEntity.ok(timetableService.getTimetableByTeacherId(teacherId));
+    @GetMapping("/teacher")
+    public ResponseEntity<List<TeacherTimetableDTO>> getTimetableOfTeacher() {
+        return ResponseEntity.ok(timetableService.getTimetableOfTeacher());
     }
 
     @GetMapping("/day/{day}")
@@ -25,11 +25,10 @@ public class TeacherTimetableController {
         return ResponseEntity.ok(timetableService.getTimetableByDay(day));
     }
 
-    @PostMapping("/add/{teacherId}")
+    @PostMapping("/add")
     public ResponseEntity<List<TeacherTimetableDTO>> addTimetable(
-            @PathVariable String teacherId,
             @RequestBody List<TeacherTimetableDTO> timetableDTOs) {
-        return ResponseEntity.ok(timetableService.addTimetables(teacherId, timetableDTOs));
+        return ResponseEntity.ok(timetableService.addTimetables(timetableDTOs));
     }
 
     @DeleteMapping("/delete/{id}")

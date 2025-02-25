@@ -3,6 +3,7 @@ package com.leaveManagement.PictLeaveProcessing.Controller;
 import com.leaveManagement.PictLeaveProcessing.DTO.InboxDTO;
 import com.leaveManagement.PictLeaveProcessing.Service.InboxService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,13 +20,18 @@ public class InboxController {
         return inboxService.sendMessage(inputMessage);
     }
 
-    @GetMapping("/getAllPendingMessages/{teacherRegistrationId}")
-    public List<InboxDTO>  getAllPendingMessagesOfTeacherByRegistrationId(@PathVariable String teacherRegistrationId){
-        return inboxService.getAllPendingMessagesOfTeacherByRegistrationId(teacherRegistrationId);
+    @GetMapping("/getAllPendingMessages")
+    public List<InboxDTO> getAllPendingMessagesOfTeacher() {
+        return inboxService.getAllPendingMessagesOfTeacher();
     }
 
-    @GetMapping("/getAllSentMessages/{teacherRegistrationId}")
-    public List<InboxDTO>  getAllSentMessagesOfTeacherByRegistrationId(@PathVariable String teacherRegistrationId){
-        return inboxService.getAllSentMessagesOfTeacherByRegistrationId(teacherRegistrationId);
+    @GetMapping("/getAllSentMessages")
+    public List<InboxDTO> getAllSentMessagesOfTeacher() {
+        return inboxService.getAllSentMessagesOfTeacher();
+    }
+
+    @PutMapping("/acceptRequest/{msgId}")
+    public ResponseEntity<String> updateStatusByTeacherRegistrationId(@PathVariable Long msgId) {
+             return ResponseEntity.ok(inboxService.acceptStatusOfInboxMessageByMsgId(msgId));
     }
 }

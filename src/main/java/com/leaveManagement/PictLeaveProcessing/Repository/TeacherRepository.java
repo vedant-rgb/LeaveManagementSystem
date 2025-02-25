@@ -24,6 +24,9 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
             AND (:startTime < tt.endTime AND :endTime > tt.startTime)
         )
         AND t.teacherRegistrationId <> :excludedTeacherId
+        AND t.teacherRegistrationId NOT IN (
+            SELECT u.teacherRegistrationId FROM User u JOIN u.roles r WHERE r = 'HOD'
+        )
     """)
     List<Teacher> findAvailableTeachersExcluding(
             @Param("day") String day,
@@ -31,4 +34,5 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
             @Param("endTime") LocalTime endTime,
             @Param("excludedTeacherId") String excludedTeacherId
     );
+
 }

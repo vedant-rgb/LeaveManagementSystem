@@ -13,4 +13,12 @@ public class TeacherDTO {
     private String subject;
     private String department;
     private TeacherLeaveDTO leave;
+
+    public TeacherDTO(String teacherRegistrationId, String name, String post, String subject, String department) {
+        this.teacherRegistrationId = teacherRegistrationId;
+        this.name = name;
+        this.post = post;
+        this.subject = subject;
+        this.department = department;
+    }
 }

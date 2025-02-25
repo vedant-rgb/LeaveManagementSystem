@@ -3,16 +3,21 @@ package com.leaveManagement.PictLeaveProcessing.Service;
 import com.leaveManagement.PictLeaveProcessing.DTO.TeacherTimetableDTO;
 import com.leaveManagement.PictLeaveProcessing.Entity.Teacher;
 import com.leaveManagement.PictLeaveProcessing.Entity.TeacherTimetable;
+import com.leaveManagement.PictLeaveProcessing.Entity.User;
 import com.leaveManagement.PictLeaveProcessing.Repository.TeacherRepository;
 import com.leaveManagement.PictLeaveProcessing.Repository.TeacherTimetableRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class TeacherTimetableService {
 
     @Autowired
@@ -24,8 +29,9 @@ public class TeacherTimetableService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<TeacherTimetableDTO> getTimetableByTeacherId(String teacherId) {
-        List<TeacherTimetable> timetables = timetableRepository.findByTeacher_TeacherRegistrationId(teacherId);
+    public List<TeacherTimetableDTO> getTimetableOfTeacher() {
+        User user = getCurrentuser();
+        List<TeacherTimetable> timetables = timetableRepository.findByTeacher_TeacherRegistrationId(user.getTeacherRegistrationId());
         return timetables.stream()
                 .map(timetable -> modelMapper.map(timetable, TeacherTimetableDTO.class))
                 .collect(Collectors.toList());
@@ -38,14 +44,15 @@ public class TeacherTimetableService {
                 .collect(Collectors.toList());
     }
 
-    public List<TeacherTimetableDTO> addTimetables(String teacherId, List<TeacherTimetableDTO> dtoList) {
+    public List<TeacherTimetableDTO> addTimetables(List<TeacherTimetableDTO> dtoList) {
+        User user = getCurrentuser();
         if (dtoList.isEmpty()) {
             throw new RuntimeException("Timetable list cannot be empty");
         }
 
-        Optional<Teacher> teacherOptional = teacherRepository.findByTeacherRegistrationId(teacherId);
+        Optional<Teacher> teacherOptional = teacherRepository.findByTeacherRegistrationId(user.getTeacherRegistrationId());
         if (teacherOptional.isEmpty()) {
-            throw new RuntimeException("Teacher not found with ID: " + teacherId);
+            throw new RuntimeException("Teacher not found with ID: " + user.getTeacherRegistrationId());
         }
         Teacher teacher = teacherOptional.get();
 
@@ -61,6 +68,10 @@ public class TeacherTimetableService {
         return timetables.stream()
                 .map(timetable -> modelMapper.map(timetable, TeacherTimetableDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    private User getCurrentuser(){
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     public void deleteTimetable(Long id) {

@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InboxDTO {
+    private Long id;
     private String senderTeacherRegistrationId;
     private String receiverTeacherRegistrationId;
     private RequestStatus status;

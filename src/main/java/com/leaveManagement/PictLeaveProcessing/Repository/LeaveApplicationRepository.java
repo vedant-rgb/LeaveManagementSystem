@@ -17,11 +17,5 @@ public interface LeaveApplicationRepository extends JpaRepository<LeaveApplicati
     @Query("SELECT la FROM LeaveApplication la WHERE la.status=:status")
     List<LeaveApplication> getLeaveApplicationByStatus(ApplicationStatus status);
 
-    @Modifying
-    @Query("UPDATE LeaveApplication la SET la.status=:status WHERE la.id=:id")
-    int updateStatusById(Long id,ApplicationStatus status);
 
-    @Modifying
-    @Query("UPDATE LeaveApplication la SET la.status=:status WHERE la.teacherRegistrationId =:teacherRegistrationId")
-    int updateStatusByTeacherRegistrationId(String teacherRegistrationId,ApplicationStatus status);
 }

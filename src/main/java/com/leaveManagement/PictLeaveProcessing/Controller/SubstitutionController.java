@@ -24,14 +24,13 @@ public class SubstitutionController {
     public List<TeacherNameDTO> getAvailableTeachers(
             @RequestParam("date") String dateStr,
             @RequestParam("startTime") String startTimeStr,
-            @RequestParam("endTime") String endTimeStr,
-            @RequestParam("teacherId") String teacherId) {
+            @RequestParam("endTime") String endTimeStr) {
 
         LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ISO_DATE);
         LocalTime startTime = LocalTime.parse(startTimeStr);
         LocalTime endTime = LocalTime.parse(endTimeStr);
 
-        return teacherSubstitutionService.getAvailableTeachers(date,startTime,endTime,teacherId);
+        return teacherSubstitutionService.getAvailableTeachers(date,startTime,endTime);
     }
 
 }

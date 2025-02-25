@@ -18,15 +18,9 @@ public class TeacherController {
         this.teacherService = teacherService;
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<TeacherDTO>saveTeacher(@RequestBody TeacherDTO teacher){
-        TeacherDTO savedTeacher=teacherService.saveTeacher(teacher);
-        return ResponseEntity.ok(savedTeacher);
-    }
-
-    @GetMapping("/getTeacher/{teacherId}")
-    public ResponseEntity<TeacherDTO>getTeacherById(@PathVariable String teacherId){
-        TeacherDTO teacher=teacherService.getTeacherById(teacherId);
+    @GetMapping("/getTeacher")
+    public ResponseEntity<TeacherDTO>getTeacherById(){
+        TeacherDTO teacher=teacherService.getTeacherById();
         return ResponseEntity.ok(teacher);
     }
 

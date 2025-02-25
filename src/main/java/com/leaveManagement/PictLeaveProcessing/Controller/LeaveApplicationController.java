@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/leave")
+@RequestMapping("/leaveApplication")
 @RequiredArgsConstructor
 public class LeaveApplicationController {
 
@@ -27,12 +27,11 @@ public class LeaveApplicationController {
         return ResponseEntity.ok(leaveApplicationDTO);
     }
 
-    @GetMapping("/TeacherRegistrationId/{teacherId}")
-    public ResponseEntity<LeaveApplicationDTO> getLeaveByTeacherRegistrationId(@PathVariable String teacherId) {
-        LeaveApplicationDTO leaveApplicationDTO = leaveApplicationService.getLeaveByTeacherRegistrationId(teacherId);
+    @GetMapping
+    public ResponseEntity<LeaveApplicationDTO> getLeaveByTeacherRegistrationId() {
+        LeaveApplicationDTO leaveApplicationDTO = leaveApplicationService.getLeavesOfTeacher();
         return ResponseEntity.ok(leaveApplicationDTO);
     }
-
     @GetMapping("/all")
     public ResponseEntity<List<LeaveApplicationDTO>> getAllLeaves() {
         return ResponseEntity.ok(leaveApplicationService.getAllLeaves());

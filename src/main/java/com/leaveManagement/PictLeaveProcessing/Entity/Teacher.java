@@ -27,4 +27,12 @@ public class Teacher {
         this.leave = new TeacherLeave();
     }
 
+    public Teacher(String teacherRegistrationId, String name, String post, String subject, String department) {
+        this.teacherRegistrationId = teacherRegistrationId;
+        this.name = name;
+        this.post = post;
+        this.subject = subject;
+        this.department = department;
+        this.leave = new TeacherLeave();
+    }
 }
