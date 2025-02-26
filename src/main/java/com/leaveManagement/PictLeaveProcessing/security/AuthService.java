@@ -97,6 +97,13 @@ public class AuthService {
         return "Password updated successfully";
     }
 
+    public String refreshToken(String refreshToken){
+        Long id = jwtService.getUserIdFromToken(refreshToken);
+
+        User user = userRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("User not found with id :"+id));
+        return jwtService.generateAccessToken(user);
+    }
+
     private User getCurrentuser(){
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
