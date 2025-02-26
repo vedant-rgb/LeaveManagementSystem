@@ -2,6 +2,7 @@ package com.leaveManagement.PictLeaveProcessing.security;
 
 import com.leaveManagement.PictLeaveProcessing.Entity.User;
 import com.leaveManagement.PictLeaveProcessing.Service.UserService;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,15 +22,19 @@ import java.io.IOException;
 
 
 @Configuration
-@RequiredArgsConstructor
 public class JWTAuthFilter extends OncePerRequestFilter {
 
     private final JWTService jwtService;
     private final UserService userService;
 
     @Autowired
-    @Qualifier("handlerExceptionResolver")
+    @Qualifier("handlerExceptionResolver") 
     private HandlerExceptionResolver handlerExceptionResolver;
+
+    public JWTAuthFilter(JWTService jwtService, UserService userService) {
+        this.jwtService = jwtService;
+        this.userService = userService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -50,8 +55,13 @@ public class JWTAuthFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
             filterChain.doFilter(request, response);
-        }catch (JwtException ex){
-            handlerExceptionResolver.resolveException(request,response,null,ex);
+        }catch (ExpiredJwtException ex) {
+            handlerExceptionResolver.resolveException(request, response, null,
+                    new JwtException(ex.getMessage())); // This now includes expired time
+        } catch (JwtException ex) {
+            handlerExceptionResolver.resolveException(request, response, null, ex);
+        } catch (Exception ex) {
+            handlerExceptionResolver.resolveException(request, response, null, ex);
         }
     }
 }

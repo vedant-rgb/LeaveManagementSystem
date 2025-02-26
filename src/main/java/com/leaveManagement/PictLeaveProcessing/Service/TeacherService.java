@@ -7,6 +7,7 @@ import com.leaveManagement.PictLeaveProcessing.Entity.User;
 import com.leaveManagement.PictLeaveProcessing.Exceptions.ResourceNotFoundException;
 import com.leaveManagement.PictLeaveProcessing.Repository.TeacherRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,7 @@ public class TeacherService {
         this.modelMapper = modelMapper;
     }
 
+    @Secured("ROLE_HOD")
     public TeacherDTO saveTeacher(TeacherDTO teacher) {
         Teacher toBeSaved = modelMapper.map(teacher, Teacher.class);
         if (toBeSaved.getLeave() == null) {
@@ -35,6 +37,7 @@ public class TeacherService {
         return modelMapper.map(saved, TeacherDTO.class);
     }
 
+    @Secured({"ROLE_HOD","ROLE_TEACHER"})
     public TeacherDTO getTeacherById() {
         User user = getCurrentuser();
         Teacher teacher = teacherRepository.findByTeacherRegistrationId(user.getTeacherRegistrationId())
@@ -42,6 +45,7 @@ public class TeacherService {
         return modelMapper.map(teacher, TeacherDTO.class);
     }
 
+    @Secured("ROLE_HOD")
     public List<TeacherDTO> getAllTeachers() {
         List<Teacher> teachers = teacherRepository.findAll();
         return teachers.stream()

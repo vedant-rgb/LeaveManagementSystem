@@ -8,6 +8,7 @@ import com.leaveManagement.PictLeaveProcessing.Repository.TeacherRepository;
 import com.leaveManagement.PictLeaveProcessing.Repository.TeacherTimetableRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,7 @@ public class TeacherTimetableService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Secured({"ROLE_HOD","ROLE_TEACHER"})
     public List<TeacherTimetableDTO> getTimetableOfTeacher() {
         User user = getCurrentuser();
         List<TeacherTimetable> timetables = timetableRepository.findByTeacher_TeacherRegistrationId(user.getTeacherRegistrationId());
@@ -37,6 +39,7 @@ public class TeacherTimetableService {
                 .collect(Collectors.toList());
     }
 
+    @Secured({"ROLE_HOD","ROLE_TEACHER"})
     public List<TeacherTimetableDTO> getTimetableByDay(String day) {
         List<TeacherTimetable> timetables = timetableRepository.findByDay(day);
         return timetables.stream()
@@ -44,6 +47,7 @@ public class TeacherTimetableService {
                 .collect(Collectors.toList());
     }
 
+    @Secured({"ROLE_HOD","ROLE_TEACHER"})
     public List<TeacherTimetableDTO> addTimetables(List<TeacherTimetableDTO> dtoList) {
         User user = getCurrentuser();
         if (dtoList.isEmpty()) {

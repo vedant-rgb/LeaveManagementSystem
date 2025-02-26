@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -26,10 +27,12 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(securedEnabled = true)
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
     private final JWTAuthFilter jwtAuthFilter;
+
     @Autowired
     @Qualifier("handlerExceptionResolver")
     private HandlerExceptionResolver handlerExceptionResolver;
@@ -46,13 +49,20 @@ public class WebSecurityConfig {
                         .requestMatchers("/HOD/**").authenticated()
                         .requestMatchers("/HOD/**").hasRole("HOD")
                         .requestMatchers("/alternate-arrangements").authenticated()
+                        .requestMatchers("/alternate-arrangements/**").authenticated()
                         .requestMatchers("/checkIsFirstTimeLogin").authenticated()
+                        .requestMatchers("/checkIsFirstTimeLogin/**").authenticated()
                         .requestMatchers("/resetPassword").authenticated()
+                        .requestMatchers("/resetPassword/**").authenticated()
                         .requestMatchers("/inbox/**").authenticated()
                         .requestMatchers("/leaveApplication").authenticated()
+                        .requestMatchers("/leaveApplication**").authenticated()
                         .requestMatchers("/substitution").authenticated()
+                        .requestMatchers("/substitution/**").authenticated()
                         .requestMatchers("/teachers").authenticated()
+                        .requestMatchers("/teachers/**").authenticated()
                         .requestMatchers("/timetable").authenticated()
+                        .requestMatchers("/timetable/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .exceptionHandling(exceptionHandlingConfig ->

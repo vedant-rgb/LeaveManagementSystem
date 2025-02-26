@@ -15,6 +15,7 @@ import com.leaveManagement.PictLeaveProcessing.Repository.LeaveApplicationReposi
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,13 +34,14 @@ public class InboxService {
     private final InboxMapper inboxMapper;
     private final LeaveApplicationRepository leaveApplicationRepository;
 
+    @Secured({"ROLE_HOD","ROLE_TEACHER"})
     public InboxDTO sendMessage(InboxDTO inputMessage) {
         Inbox inbox = inboxMapper.toEntity(inputMessage);
         inbox.setStatus(RequestStatus.PENDING);
         Inbox saved = inboxRepository.save(inbox);
         return modelMapper.map(saved, InboxDTO.class);
     }
-
+    @Secured({"ROLE_HOD","ROLE_TEACHER"})
     public List<InboxDTO> getAllPendingMessagesOfTeacher() {
         User user = getCurrentuser();
         List<Inbox> messages = inboxRepository.getAllReceivedMessagesOfTeacherByRegistrationId(getCurrentuser().getTeacherRegistrationId(), RequestStatus.PENDING);
@@ -47,7 +49,7 @@ public class InboxService {
                 .map(msg->modelMapper.map(msg, InboxDTO.class))
                 .toList();
     }
-
+    @Secured({"ROLE_HOD","ROLE_TEACHER"})
     public List<InboxDTO> getAllSentMessagesOfTeacher() {
         User user = getCurrentuser();
         List<Inbox> messages = inboxRepository.getAllSentMessagesOfTeacherByRegistrationId(user.getTeacherRegistrationId());
@@ -56,6 +58,7 @@ public class InboxService {
                 .toList();
     }
 
+    @Secured({"ROLE_HOD","ROLE_TEACHER"})
     public String acceptStatusOfInboxMessageByMsgId(Long msgId) {
         Inbox msg = inboxRepository.findById(msgId).orElseThrow(()->new ResourceNotFoundException("No message found for id : "+msgId));
         msg.setStatus(RequestStatus.APPROVED);

@@ -10,6 +10,7 @@ import com.leaveManagement.PictLeaveProcessing.Exceptions.ResourceNotFoundExcept
 import com.leaveManagement.PictLeaveProcessing.Repository.LeaveApplicationRepository;
 import com.leaveManagement.PictLeaveProcessing.Repository.TeacherRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class HodService {
     }
 
     @Transactional
+    @Secured({"ROLE_HOD"})
     public List<LeaveApplicationDTO> getLeaveApplicationsByStatus(ApplicationStatus status) {
         List<LeaveApplication> leaveApplications = leaveApplicationRepository.getLeaveApplicationByStatus(status);
         return leaveApplications.stream()
@@ -35,7 +37,7 @@ public class HodService {
                 .toList();
     }
 
-
+    @Secured("ROLE_HOD")
     public String acceptLeaveApplication(Long applicationId) {
         LeaveApplication leaveApplication = leaveApplicationRepository.findById(applicationId).orElseThrow(() -> new ResourceNotFoundException("Leave Application not found for application ID : " + applicationId));
         leaveApplication.setStatus(ApplicationStatus.APPROVED);
@@ -72,6 +74,7 @@ public class HodService {
         return "Leave Application accepted with application ID : "+applicationId;
     }
 
+    @Secured("ROLE_HOD")
     public String rejectLeaveApplication(Long applicationId) {
         LeaveApplication leaveApplication = leaveApplicationRepository.findById(applicationId).orElseThrow(() -> new ResourceNotFoundException("Leave Application not found for application ID : " + applicationId));
         leaveApplication.setStatus(ApplicationStatus.REJECTED);

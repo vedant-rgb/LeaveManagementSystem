@@ -6,6 +6,7 @@ import com.leaveManagement.PictLeaveProcessing.Entity.AlternateArrangement;
 import com.leaveManagement.PictLeaveProcessing.Entity.User;
 import com.leaveManagement.PictLeaveProcessing.Repository.AlternateArrangementRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ public class AlternateArrangementService {
 
     private final AlternateArrangementRepository alternateArrangementRepository;
 
+    @Secured({"ROLE_TEACHER"})
     public List<AlternateArrangementDTO> getAllottedArrangementForSubstituteTeacher(){
         User user = getCurrentuser();
         List<AlternateArrangement> arrangement = alternateArrangementRepository.findAlternateArrangementBySubstituteTeacherRegistrationId(user.getTeacherRegistrationId());

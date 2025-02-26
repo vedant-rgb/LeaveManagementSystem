@@ -11,6 +11,7 @@ import com.leaveManagement.PictLeaveProcessing.Exceptions.ResourceNotFoundExcept
 import com.leaveManagement.PictLeaveProcessing.Repository.LeaveApplicationRepository;
 import com.leaveManagement.PictLeaveProcessing.Repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ public class LeaveApplicationService {
     private final TeacherRepository teacherRepository;
 
     @Transactional
+    @Secured({"ROLE_HOD","ROLE_TEACHER"})
     public String applyForLeave(LeaveApplicationDTO leaveApplicationDTO) {
         // Validate if teacher exists
         Teacher teacher = teacherRepository.findByTeacherRegistrationId(leaveApplicationDTO.getTeacherRegistrationId())
@@ -59,7 +61,7 @@ public class LeaveApplicationService {
         return "Leave application submitted successfully.";
     }
 
-
+    @Secured({"ROLE_HOD","ROLE_TEACHER"})
     public LeaveApplicationDTO getLeavesOfTeacher(){
         User user = getCurrentuser();
         System.out.println("1");
@@ -73,14 +75,14 @@ public class LeaveApplicationService {
         return LeaveApplicationMapper.toDTO(leaveApplication);
     }
 
-
+    @Secured({"ROLE_HOD","ROLE_TEACHER"})
     public LeaveApplicationDTO getLeaveById(Long leaveId) {
         LeaveApplication leaveApplication = leaveApplicationRepository.findById(leaveId)
                 .orElseThrow(() -> new RuntimeException("Leave application not found."));
         return LeaveApplicationMapper.toDTO(leaveApplication);
     }
 
-
+    @Secured({"ROLE_HOD","ROLE_TEACHER"})
     public List<LeaveApplicationDTO> getAllLeaves() {
         List<LeaveApplication> leaves = leaveApplicationRepository.findAll();
         return leaves.stream()
@@ -88,6 +90,7 @@ public class LeaveApplicationService {
                 .collect(Collectors.toList());
     }
 
+    @Secured({"ROLE_HOD","ROLE_TEACHER"})
     public String cancelLeave(Long leaveId) {
         if (!leaveApplicationRepository.existsById(leaveId)) {
             return "Error: Leave application not found.";

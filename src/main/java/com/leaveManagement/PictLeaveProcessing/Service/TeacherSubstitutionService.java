@@ -9,6 +9,7 @@ import com.leaveManagement.PictLeaveProcessing.Repository.TeacherTimetableReposi
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,7 @@ public class TeacherSubstitutionService {
     private ModelMapper modelMapper;
 
     // Get free teachers for a given date and time slot
+    @Secured({"ROLE_HOD","ROLE_TEACHER"})
     public List<TeacherNameDTO> getAvailableTeachers(LocalDate date, LocalTime startTime, LocalTime endTime) {
         String day = getDayOfWeek(date);
         User user = getCurrentuser();

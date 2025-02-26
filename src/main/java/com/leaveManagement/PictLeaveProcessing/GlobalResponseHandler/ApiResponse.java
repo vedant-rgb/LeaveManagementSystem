@@ -1,50 +1,24 @@
 package com.leaveManagement.PictLeaveProcessing.GlobalResponseHandler;
 
 import com.leaveManagement.PictLeaveProcessing.GlobalExceptionHandler.ApiError;
+import lombok.Data;
 
 import java.time.LocalDateTime;
-
+@Data
 public class ApiResponse<T> {
-
     private LocalDateTime timeStamp;
     private T data;
-    private ApiError apiErrorResponse;
+    private ApiError error;
 
     public ApiResponse() {
-        this.timeStamp=LocalDateTime.now();
+        this.timeStamp = LocalDateTime.now();
     }
-
-    public ApiResponse(ApiError apiErrorResponse) {
+    public ApiResponse(T data){
         this();
-        this.apiErrorResponse = apiErrorResponse;
+        this.data=data;
     }
-
-    public ApiResponse(T data) {
+    public ApiResponse(ApiError error){
         this();
-        this.data = data;
-    }
-
-    public LocalDateTime getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(LocalDateTime timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    public ApiError getApiErrorResponse() {
-        return apiErrorResponse;
-    }
-
-    public void setApiErrorResponse(ApiError apiErrorResponse) {
-        this.apiErrorResponse = apiErrorResponse;
+        this.error=error;
     }
 }

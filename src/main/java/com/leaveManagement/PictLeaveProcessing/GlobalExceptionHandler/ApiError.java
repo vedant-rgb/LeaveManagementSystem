@@ -7,14 +7,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import java.util.List;
 
-@Builder
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class ApiError<T> {
-
-    private String error;
-    private List<String> subError;
-    private HttpStatus statusCode;
-
+@Builder
+public class ApiError {
+    private HttpStatus status;
+    private String message;
+    private List<String> subErrors;
 }

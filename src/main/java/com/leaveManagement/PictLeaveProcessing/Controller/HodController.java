@@ -42,5 +42,4 @@ public class HodController {
     public ResponseEntity<TeacherDTO> createNewTeacher(@RequestBody SignUpRequest signUpRequest){
         return ResponseEntity.ok(authService.signUp(signUpRequest));
     }
-
 }

@@ -14,6 +14,7 @@ import com.leaveManagement.PictLeaveProcessing.Service.TeacherService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -38,6 +39,7 @@ public class AuthService {
     private final JWTService jwtService;
 
     @Transactional
+    @Secured("ROLE_HOD")
     public TeacherDTO signUp(SignUpRequest signUpRequest){
         Optional<User> user =userRepository.findByTeacherRegistrationId(signUpRequest.getTeacherRegistrationId());
         if(user.isPresent()){
