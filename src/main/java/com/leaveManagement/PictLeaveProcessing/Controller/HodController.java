@@ -6,6 +6,7 @@ import com.leaveManagement.PictLeaveProcessing.DTO.TeacherDTO;
 import com.leaveManagement.PictLeaveProcessing.Enums.ApplicationStatus;
 import com.leaveManagement.PictLeaveProcessing.Service.HodService;
 import com.leaveManagement.PictLeaveProcessing.security.AuthService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +41,6 @@ public class HodController {
 
     @PostMapping("/createNewTeacher")
     public ResponseEntity<TeacherDTO> createNewTeacher(@RequestBody SignUpRequest signUpRequest){
-        return ResponseEntity.ok(authService.signUp(signUpRequest));
+        return new ResponseEntity<>(authService.signUp(signUpRequest), HttpStatus.CREATED);
     }
 }
