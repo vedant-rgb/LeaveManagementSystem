@@ -93,6 +93,7 @@ public class AuthService {
             throw new RuntimeException("Old password is wrong");
         }
         user.setPassword(passwordEncoder.encode(resetPasswordDTO.getNewPassword()));
+        user.setIsFirstLogin(false);
         User savedUser = userRepository.save(user);
         return "Password updated successfully";
     }
