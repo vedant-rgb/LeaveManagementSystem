@@ -8,6 +8,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +28,22 @@ public class AuthController {
 
         Cookie cookie = new Cookie("refreshToken",tokens[1]);
         cookie.setHttpOnly(true);
-
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge((int) (1000L*60*60*24*30*6));
+        cookie.setAttribute("SameSite", "None");
         response.addCookie(cookie);
         return ResponseEntity.ok(new LoginResponseDTO(tokens[0]));
     }
+
+    @GetMapping("/check-token")
+    public ResponseEntity<String> checkToken(@CookieValue(value = "refreshToken", defaultValue = "null") String refreshToken) {
+        if ("null".equals(refreshToken)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No refresh token found!");
+        }
+        return ResponseEntity.ok("Refresh Token Exists: " + refreshToken);
+    }
+
 
     @GetMapping("/checkIsFirstTimeLogin")
     public ResponseEntity<Boolean> checkIsFirstTimeLogin(){
