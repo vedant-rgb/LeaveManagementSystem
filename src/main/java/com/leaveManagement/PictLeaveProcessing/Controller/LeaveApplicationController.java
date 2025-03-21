@@ -3,6 +3,7 @@ package com.leaveManagement.PictLeaveProcessing.Controller;
 import com.leaveManagement.PictLeaveProcessing.DTO.LeaveApplicationDTO;
 import com.leaveManagement.PictLeaveProcessing.Service.LeaveApplicationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LeaveApplicationController {
 
-    private final LeaveApplicationService leaveApplicationService;
+    @Autowired
+    private  LeaveApplicationService leaveApplicationService;
 
     @PostMapping("/apply")
     public ResponseEntity<String> applyForLeave(@RequestBody LeaveApplicationDTO leaveApplicationDTO) {
