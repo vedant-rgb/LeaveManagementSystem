@@ -13,7 +13,7 @@ This system eliminates manual paperwork, reduces errors, and ensures transparenc
 
 ---
 
-### Backend (Spring Boot)
+### Backend 
 1. Clone the repo:
    git clone https://github.com/yourusername/LeaveManagementSystem.git
 2. Navigate to the backend folder:
@@ -22,7 +22,7 @@ This system eliminates manual paperwork, reduces errors, and ensures transparenc
 4. Run the application:
    mvn spring-boot:run
 
-Frontend Setup (TypeScript.js)
+Frontend Setup 
 1. Open a new terminal and navigate to the frontend folder:
    cd frontend
 2. Install dependencies:
